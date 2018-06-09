@@ -1,6 +1,8 @@
 package com.example.jh.proto;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -109,5 +111,30 @@ public class MainActivity extends AppCompatActivity {
             byte[] send = message.getBytes();
             mService.write(send);
         }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE_SECURE:
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                if (resultCode == Activity.RESULT_OK) {
+                    setup();
+                } else {
+                    Log.d(TAG, "BT not enabled");
+                    Toast.makeText(this,"불루투스 이용이 불가 합니다!", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+        }
+    }
+
+    private void connectDevice(Intent data) {
+        String address = data.getExtras()
+                .getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
+        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
+        mService.connect(device);
     }
 }

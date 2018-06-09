@@ -84,10 +84,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mSendButton = (Button) findViewById(R.id.send_btn);
+
+//        mSendButton = (Button) findViewById(R.id.send_btn);
+//        mSendButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                sendMessage(1);
+//
+//            }
+//        });
+        final Intent intent = new Intent(this, MenuActivity.class);
+        mSendButton = findViewById(R.id.send_btn);
         mSendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                sendMessage(1);
+                startActivity(intent);
 
             }
         });

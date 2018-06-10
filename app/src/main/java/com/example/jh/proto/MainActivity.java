@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
     // Local Bluetooth adapter
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the Bluetoothservice
-    private BluetoothService mService = null;
-
+    private static BluetoothService mService = null;
 
     private Button mBTButton;
     private Button mSendButton;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 블루투스 아답터 객체가 없으면 블루투스 사용 불가
         if (mBluetoothAdapter == null) {
-            Toast.makeText(this, "블루투스를 사용할 수 없습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "이 디바이스는 블루투스를 사용할 수 없습니다.", Toast.LENGTH_LONG).show();
             finish();
         }
     }
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "Set up buttons and timer");
 
         // 블루투스 연결 버튼
-        mBTButton = (Button) findViewById(R.id.bt_btn);
+        mBTButton = findViewById(R.id.bt_btn);
         mBTButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,17 +109,14 @@ public class MainActivity extends AppCompatActivity {
     private final Handler mHandler = new Handler();
 
     // 아두이노로 메시지를 보냄
-    private void sendMessage(int value) {
-        if (mService.getState() != BluetoothService.STATE_CONNECTED) {
-            Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
-            return;
-        }
+    public static void sendMessage(int value) {
         String message = Integer.toString(value) + "\n";
         if (message.length() > 0) {
             byte[] send = message.getBytes();
             mService.write(send);
         }
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
@@ -133,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     setup();
                 } else {
                     Log.d(TAG, "BT not enabled");
-                    Toast.makeText(this,"불루투스 이용이 불가 합니다!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "불루투스 이용이 불가 합니다!", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;

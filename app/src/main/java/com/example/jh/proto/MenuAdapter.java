@@ -29,7 +29,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     public void onBindViewHolder(@NonNull MenuViewHolder holder, int position) {
         holder.title.setText(menuList.get(position).getName());
         holder.price.setText(menuList.get(position).getPrice());
-//        holder.image.setImageResource(R);
+        holder.cal.setText(menuList.get(position).getCal());
+        holder.image.setImageResource(menuList.get(position).getImageId());
 
     }
 
@@ -41,11 +42,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     class MenuViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView price;
+        TextView cal;
         ImageView image;
-        public MenuViewHolder(View itemView) {
+        MenuViewHolder(View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.menu_title);
             price = itemView.findViewById(R.id.menu_price);
+            cal = itemView.findViewById(R.id.menu_kcal);
             image = itemView.findViewById(R.id.menu_image);
         }
 
